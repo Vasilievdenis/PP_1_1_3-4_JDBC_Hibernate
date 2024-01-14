@@ -1,43 +1,45 @@
 package jm.task.core.jdbc.service;
 
 import com.sun.istack.logging.Logger;
-import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
+import jm.task.core.jdbc.dao.UserDao;
+import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
 import jm.task.core.jdbc.model.User;
 
+import javax.transaction.SystemException;
 import java.util.List;
 import java.util.logging.Level;
 
 public class UserServiceImpl implements UserService {
-    public static final UserDaoJDBCImpl userDaoJDBC = new UserDaoJDBCImpl();
+    public UserDao userDaoHibernate = new UserDaoHibernateImpl();
     private static final Logger logger = Logger.getLogger(UserServiceImpl.class.getName().getClass());
 
-    public void createUsersTable() {
-        userDaoJDBC.createUsersTable();
+    public void createUsersTable() throws SystemException {
+        userDaoHibernate.createUsersTable();
         logger.log(Level.INFO, "Таблица создана");
     }
 
     public void dropUsersTable() {
-        userDaoJDBC.dropUsersTable();
+        userDaoHibernate.dropUsersTable();
         logger.log(Level.INFO, "Таблица удалена");
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        userDaoJDBC.saveUser(name, lastName, age);
+        userDaoHibernate.saveUser(name, lastName, age);
         logger.log(Level.INFO, "Пользователь с именем - " + name + " добавлен в базу данных");
     }
 
     public void removeUserById(long id) {
-        userDaoJDBC.removeUserById(id);
+        userDaoHibernate.removeUserById(id);
         logger.log(Level.INFO, "Пользователь удален");
     }
 
     public List<User> getAllUsers() {
-        logger.log(Level.INFO, userDaoJDBC.getAllUsers().toString());
-        return userDaoJDBC.getAllUsers();
+        logger.log(Level.INFO, userDaoHibernate.getAllUsers().toString());
+        return userDaoHibernate.getAllUsers();
     }
 
     public void cleanUsersTable() {
-        userDaoJDBC.cleanUsersTable();
+        userDaoHibernate.cleanUsersTable();
         logger.log(Level.INFO, "Таблица очищена");
 
     }
