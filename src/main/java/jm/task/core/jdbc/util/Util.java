@@ -20,8 +20,12 @@ public class Util {
     private static final String USERNAME = "room";
     private static final String PASSWORD = "room";
     private static final String URL = "jdbc:mysql://localhost:3306/den";
+    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+    private static final String HOST = "jdbc:mysql://localhost:3306/den?useSSL=false&allowMultiQueries=true&serverTimezone=UTC";
+    private static final String LOGIN = "room";
+    private static final String PASWORD = "room";
+    private static SessionFactory sessionFactory = null;
     private static final Logger logger = Logger.getLogger(UserServiceImpl.class.getName().getClass());
-
 
     public static Connection getConnectiion() {
         Connection connection = null;
@@ -32,31 +36,27 @@ public class Util {
         }
         return connection;
     }
-    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String HOST = "jdbc:mysql://localhost:3306/den?useSSL=false&allowMultiQueries=true&serverTimezone=UTC";
-    private static final String LOGIN = "room";
-    private static final String PASWORD = "room";
-    private static SessionFactory sessionFactory = null;
 
-    public static SessionFactory getSessionFactory () {
+    public static SessionFactory getSessionFactory() {
         try {
-                Configuration configuration =  new Configuration()
-                        .setProperty("hibernate.connection.driver_class", DRIVER)
-                        .setProperty("hibernate.connection.url", HOST)
-                        .setProperty("hibernate.connection.username", LOGIN)
-                        .setProperty("hibernate.connection.password", PASWORD)
-                        .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect")
-                        .addAnnotatedClass(User.class)
-                        .setProperty("hibernate.c3p0.min_size", "5")
-                        .setProperty("hibernate.c3p0.max_size", "200")
-                        .setProperty("hibernate.c3p0.min_statements", "200")
-                        .setProperty("Environment.HBM2DDL_AUTO", "");
+            Configuration configuration = new Configuration()
+                    .setProperty("hibernate.connection.driver_class", DRIVER)
+                    .setProperty("hibernate.connection.url", HOST)
+                    .setProperty("hibernate.connection.username", LOGIN)
+                    .setProperty("hibernate.connection.password", PASWORD)
+                    .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect")
+                    .addAnnotatedClass(User.class)
+                    .setProperty("hibernate.c3p0.min_size", "5")
+                    .setProperty("hibernate.c3p0.max_size", "200")
+                    .setProperty("hibernate.c3p0.min_statements", "200")
+                    .setProperty("Environment.HBM2DDL_AUTO", "");
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                     .applySettings(configuration.getProperties()).build();
 
             sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            } catch (HibernateException e) {
-            logger.log(Level.INFO, "Ops!");            }
+        } catch (HibernateException e) {
+            logger.log(Level.INFO, "Ops!");
+        }
         return sessionFactory;
     }
 } // реализуйте настройку соеденения с БД

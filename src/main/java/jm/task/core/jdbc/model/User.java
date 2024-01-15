@@ -22,6 +22,11 @@ public class User {
     public User() {
 
     }
+    public User(String name, String lastName, byte age) {
+        this.name = name;
+        this.lastName = lastName;
+        this.age = age;
+    }
 
     public User(Long id) {
 
@@ -35,12 +40,6 @@ public class User {
 
     public User(Byte age) {
 
-        this.age = age;
-    }
-
-    public User(String name, String lastName, byte age) {
-        this.name = name;
-        this.lastName = lastName;
         this.age = age;
     }
 
@@ -84,7 +83,6 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User user)) return false;
-
         if (!Objects.equals(id, user.id)) return false;
         if (!Objects.equals(name, user.name)) return false;
         if (!Objects.equals(lastName, user.lastName)) return false;
